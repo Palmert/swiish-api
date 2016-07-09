@@ -7,12 +7,24 @@
 var app = require('../app');
 var debug = require('debug')('swiish-api:server');
 var http = require('http');
+
 var db = require('../database').db;
-var user = require('../model/user').User;
-var token = require('../model/token').Token;
+var competition = require('../model/competition').Competition;
+var competitionPerformance = require('../model/competition_performance').CompetitionPerformance;
+var competitionType = require('../model/competition_type').CompetitionType;
+var invitation = require('../model/invitation').Invitation;
 var performance = require('../model/performance').Performance;
 var performanceToken = require('../model/performance_token').PerformanceToken;
+var performanceValidation = require('../model/performance_validation').PerformanceValidation;
+var token = require('../model/token').Token;
 var tokenSource = require('../model/token_source').TokenSource;
+var user = require('../model/user').User;
+var userFollow = require('../model/user_follow').UserFollow;
+var userInvitation = require('../model/user_invitation').UserInvitation;
+var userPerformance = require('../model/user_performance').UserPerformance;
+var userToken = require('../model/user_token').UserToken;
+var userValidation = require('../model/user_validation').UserValidation;
+var validamtion = require('../model/validation').Validation;
 
 
 /**
@@ -34,7 +46,7 @@ server.on('listening', onListening);
 db.sync().then(function(err) {
     console.log('Successfully created tables.');
     server.listen(port);
-  }, function (err) {
+}, function(err) {
     console.log('Table creation error:', err);
 });
 
@@ -44,19 +56,19 @@ db.sync().then(function(err) {
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+    var port = parseInt(val, 10);
 
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
 
-  if (port >= 0) {
-    // port number
-    return port;
-  }
+    if (port >= 0) {
+        // port number
+        return port;
+    }
 
-  return false;
+    return false;
 }
 
 /**
@@ -64,27 +76,27 @@ function normalizePort(val) {
  */
 
 function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+    var bind = typeof port === 'string' ?
+        'Pipe ' + port :
+        'Port ' + port;
 
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
 }
 
 /**
@@ -92,9 +104,9 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+    var addr = server.address();
+    var bind = typeof addr === 'string' ?
+        'pipe ' + addr :
+        'port ' + addr.port;
+    debug('Listening on ' + bind);
 }
