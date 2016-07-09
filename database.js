@@ -9,7 +9,12 @@ module.exports = {
       max: 5,
       min: 0,
       idle: 10000
-    }
+    },
+		define: {
+			paranoid: true,
+			underscored: true,
+			freezeTableName: true
+		}
   }),
 
 	successCallback : function (data, cb) {
