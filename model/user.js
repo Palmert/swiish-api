@@ -30,7 +30,7 @@ var User = db.define('users', {
         allowNull: false
     },
     birthDate: {
-        type: sequelize.DATE,
+        type: sequelize.DATEONLY,
         allowNull: false,
         field: 'birth_date'
     }
