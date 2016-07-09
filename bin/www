@@ -11,6 +11,7 @@ var db = require('../database').db;
 var user = require('../model/user').User;
 var token = require('../model/token').Token;
 var performance = require('../model/performance').Performance;
+var performanceToken = require('../model/performance_token').PerformanceToken;
 var tokenSource = require('../model/token_source').TokenSource;
 
 
