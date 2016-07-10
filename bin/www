@@ -7,26 +7,8 @@
 var app = require('../app');
 var debug = require('debug')('swiish-api:server');
 var http = require('http');
-
 var db = require('../database').db;
-var competition = require('../model/competition').Competition;
-var competitionPerformance = require('../model/competition_performance').CompetitionPerformance;
-var competitionType = require('../model/competition_type').CompetitionType;
-var invitation = require('../model/invitation').Invitation;
-var performance = require('../model/performance').Performance;
-var performanceToken = require('../model/performance_token').PerformanceToken;
-var performanceValidation = require('../model/performance_validation').PerformanceValidation;
-var token = require('../model/token').Token;
-var tokenSource = require('../model/token_source').TokenSource;
-var user = require('../model/user').User;
-var userFollow = require('../model/user_follow').UserFollow;
-var userInvitation = require('../model/user_invitation').UserInvitation;
-var userPerformance = require('../model/user_performance').UserPerformance;
-var userToken = require('../model/user_token').UserToken;
-var userValidation = require('../model/user_validation').UserValidation;
-var validamtion = require('../model/validation').Validation;
-
-
+var associations = require('../associations');
 /**
  * Get port from environment and store in Express.
  */
@@ -43,7 +25,7 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 
-db.sync().then(function(err) {
+db.sync({force: true}).then(function(err) {
     console.log('Successfully created tables.');
     server.listen(port);
 }, function(err) {

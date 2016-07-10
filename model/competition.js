@@ -7,11 +7,6 @@ var Competition = db.define('competitions', {
         primaryKey: true,
         autoIncrement: true
     },
-    competitionTypeId: {
-        type: sequelize.INTEGER,
-        allowNull: false,
-        field: 'competition_type_id'
-    },
     daySpan: {
         type: sequelize.INTEGER,
         allowNull: false,
