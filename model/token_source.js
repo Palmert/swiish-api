@@ -3,9 +3,9 @@ var db = require('../database').db;
 
 var TokenSource = db.define('token_sources', {
     id: {
-        type: sequelize.INTEGER,
+        type: sequelize.UUID,
         primaryKey: true,
-        autoIncrement: true
+        defaultValue: sequelize.UUIDV1
     },
     source: {
         type: sequelize.STRING,

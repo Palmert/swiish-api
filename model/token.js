@@ -3,10 +3,11 @@ var db = require('../database').db;
 
 var Token = db.define('tokens', {
     id: {
-        type: sequelize.INTEGER,
+        type: sequelize.UUID,
         primaryKey: true,
-        autoIncrement: true
+        defaultValue: sequelize.UUIDV1
     }
+
 });
 
 module.exports = Token;

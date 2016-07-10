@@ -3,9 +3,9 @@ var db = require('../database').db;
 
 var Invitation = db.define('invitations', {
     id: {
-        type: sequelize.INTEGER,
+        type: sequelize.UUID,
         primaryKey: true,
-        autoIncrement: true
+        defaultValue: sequelize.UUIDV1
     },
     email: {
         type: sequelize.STRING,

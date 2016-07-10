@@ -3,9 +3,9 @@ var db = require('../database').db;
 
 var Competition = db.define('competitions', {
     id: {
-        type: sequelize.INTEGER,
+        type: sequelize.UUID,
         primaryKey: true,
-        autoIncrement: true
+        defaultValue: sequelize.UUIDV1
     },
     daySpan: {
         type: sequelize.INTEGER,

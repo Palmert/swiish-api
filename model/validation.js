@@ -3,9 +3,9 @@ var db = require('../database').db;
 
 var Validation = db.define('validations', {
     id: {
-        type: sequelize.INTEGER,
+        type: sequelize.UUID,
         primaryKey: true,
-        autoIncrement: true
+        defaultValue: sequelize.UUIDV1
     },
     result: {
         type: sequelize.INTEGER,
