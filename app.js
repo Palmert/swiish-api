@@ -1,11 +1,14 @@
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
+var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+
 var app = express();
 
+app.use(bodyParser.json());
 app.use(logger('dev'));
 app.use('/', routes);
 app.use('/users', users);
