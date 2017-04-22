@@ -8,14 +8,15 @@ var bcrypt = require('bcryptjs');
 /* GET users listing. */
 router.get('/', function (req, res, next) {
     res.send('respond with a resource');
-})
+});
 
 router.post('/', function (req, res) {
     console.log(req.body);
-    return db.transaction(function (t) {
+    console.log(req.body.username);
+    return db.transaction(function () {
         return User.create({
             username: req.body.username,
-            virtual_password: req.body.virtual_password
+            password: req.body.password
         });
     }).then(function (result) {
         console.log(result);
@@ -24,11 +25,11 @@ router.post('/', function (req, res) {
         console.log(err);
         res.status(500).send(err.name);
     });
-})
+});
 
 router.post('/login', function (req, res) {
-    User.findById(req.body.username).then(function (user) {
-        if (bcrypt.compareSync(req.body.password, user.password)) {
+    User.findOne({username : req.body.username}).then(function (user) {
+        if (user && bcrypt.compareSync(req.body.password, user.password_hash)) {
             res.send("Login Success!");
         } else {
             res.status(500).send("Invalid username/password");
@@ -36,6 +37,6 @@ router.post('/login', function (req, res) {
     }, function (err) {
         res.status(500).send(err.name);
     });
-})
+});
 
 module.exports = router;

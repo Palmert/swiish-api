@@ -1,15 +1,35 @@
 var express = require('express');
+var bodyParser = require('body-parser')
+var cookieParser = require('cookie-parser')
 var path = require('path');
 var logger = require('morgan');
-var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var passport = require('passport');
+var session = require('express-session')
 
 
 var app = express();
 
-app.use(bodyParser.json());
+var sess = {
+    secret: 'keyboard cat',
+    cookie: {},
+    resave: false,
+    saveUninitialized: false
+}
+
+if (app.get('env') === 'production') {
+    app.set('trust proxy', 1) // trust first proxy
+    sess.cookie.secure = true // serve secure cookies
+}
+
+
 app.use(logger('dev'));
+app.use(express.static('public'));
+app.use(bodyParser.json());
+app.use(session(sess));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/', routes);
 app.use('/users', users);
 
@@ -36,5 +56,14 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500).send(err.message);
 });
 
+passport.serializeUser(function(user, done) {
+    done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+    User.findById(id, function(err, user) {
+        done(err, user);
+    });
+});
 
 module.exports = app;
